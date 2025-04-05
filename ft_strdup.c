@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: nikhtib <nikhtib@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/22 01:24:44 by nikhtib           #+#    #+#             */
-/*   Updated: 2025/03/22 01:34:35 by nikhtib          ###   ########.fr       */
+/*   Created: 2025/04/05 17:47:48 by nikhtib           #+#    #+#             */
+/*   Updated: 2025/04/05 17:47:49 by nikhtib          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,5 +29,6 @@ char	*ft_strdup(char *s1)
 		i++;
 	}
 	ptr[i] = '\0';
-	return (ptr);return (ptr);
+	return (ptr);
+	return (ptr);
 }

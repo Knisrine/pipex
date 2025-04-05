@@ -5,49 +5,14 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: nikhtib <nikhtib@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/22 17:32:22 by nikhtib           #+#    #+#             */
-/*   Updated: 2025/03/22 17:32:34 by nikhtib          ###   ########.fr       */
+/*   Created: 2025/04/05 17:22:41 by nikhtib           #+#    #+#             */
+/*   Updated: 2025/04/05 17:41:38 by nikhtib          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-typedef struct s_data
-{
-	char			**result;
-	int				i;
-	int				j;
-	int				start;
-	int				word_count;
-	char			*tmp;
-}					t_data;
-
-static int	ft_count_word(char const *st, char c)
-{
-	int	i;
-	int	count;
-	int	flag;
-
-	i = 0;
-	count = 0;
-	flag = 1;
-	while (st[i] != '\0')
-	{
-		if (st[i] == c)
-		{
-			flag = 1;
-		}
-		else if (flag == 1)
-		{
-			count++;
-			flag = 0;
-		}
-		i++;
-	}
-	return (count);
-}
-
-static char	*make_str(char const *str, int len)
+static char	*make_str(char *str, int len)
 {
 	int		i;
 	char	*st;
@@ -65,29 +30,55 @@ static char	*make_str(char const *str, int len)
 	return (st);
 }
 
-static int	split_string(t_data *data, const char *s, char c)
+static void	quot_case(t_data *data, char *s)
+{
+	data->i++;
+	data->start = data->i;
+	while (s[data->i] && (s[data->i] != '\'' && s[data->i] != '\"'))
+		data->i++;
+	if (data->i > data->start)
+		data->tmp = make_str(s + data->start, data->i - data->start);
+	data->result[data->j++] = data->tmp;
+}
+
+static int	nrml_case(t_data *data, char *s)
+{
+	data->tmp = make_str(s + data->start, data->i - data->start);
+	if (!data->tmp)
+	{
+		data->j--;
+		while (data->j >= 0)
+		{
+			free(data->result[data->j]);
+			data->j--;
+		}
+		return (0);
+	}
+	data->result[data->j++] = data->tmp;
+	return (1);
+}
+
+static int	split_string(t_data *data, char *s, char c)
 {
 	while (s[data->i] != '\0')
 	{
 		while (s[data->i] == c)
 			data->i++;
 		data->start = data->i;
-		while (s[data->i] != '\0' && s[data->i] != c)
-			data->i++;
-		if (data->i > data->start)
+		if (s[data->i] == '\'' || s[data->i] == '\"')
 		{
-			data->tmp = make_str(s + data->start, data->i - data->start);
-			if (!data->tmp)
+			quot_case(data, s);
+			return (1);
+		}
+		else
+		{
+			while (s[data->i] != '\0' && s[data->i] != c)
+				data->i++;
+			if (data->i > data->start)
 			{
-				data->j--;
-				while (data->j >= 0)
-				{
-					free(data->result[data->j]);
-					data->j--;
-				}
-				return (free(data->result), 0);
+				if (nrml_case(data, s) == 0)
+					return (free(data->result), 0);
 			}
-			data->result[data->j++] = data->tmp;
 		}
 	}
 	return (1);
