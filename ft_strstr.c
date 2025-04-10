@@ -6,7 +6,7 @@
 /*   By: nikhtib <nikhtib@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 17:49:10 by nikhtib           #+#    #+#             */
-/*   Updated: 2025/04/05 17:49:41 by nikhtib          ###   ########.fr       */
+/*   Updated: 2025/04/08 12:46:12 by nikhtib          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ char	*ft_strstr(char *str, char *to_find)
 			if (k == len)
 			{
 				return (&str[i + k]);
-				printf("%s\n", str);
 			}
 		}
 		i++;

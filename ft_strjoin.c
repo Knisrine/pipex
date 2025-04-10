@@ -6,22 +6,18 @@
 /*   By: nikhtib <nikhtib@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 17:47:56 by nikhtib           #+#    #+#             */
-/*   Updated: 2025/04/05 17:48:55 by nikhtib          ###   ########.fr       */
+/*   Updated: 2025/04/08 12:05:08 by nikhtib          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-void	*ft_memcpy(void *dst, const void *src, size_t n)
+void	*ft_memcpy(char *ds, char *sr, int n)
 {
-	unsigned char	*ds;
-	unsigned char	*sr;
-	size_t			i;
+	int	i;
 
-	if (dst == src)
-		return (dst);
-	ds = (unsigned char *)dst;
-	sr = (unsigned char *)src;
+	if (ds == sr)
+		return (ds);
 	i = 0;
 	while (i < n)
 	{
@@ -33,9 +29,9 @@ void	*ft_memcpy(void *dst, const void *src, size_t n)
 
 char	*ft_strjoin(char *s1, char *s2)
 {
-	size_t	len_s1;
-	size_t	len_s2;
-	size_t	t_len;
+	int		len_s1;
+	int		len_s2;
+	int		t_len;
 	char	*new_str;
 
 	if (!s1 && !s2)

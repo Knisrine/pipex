@@ -6,7 +6,7 @@
 /*   By: nikhtib <nikhtib@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 11:29:08 by nikhtib           #+#    #+#             */
-/*   Updated: 2025/04/05 17:49:56 by nikhtib          ###   ########.fr       */
+/*   Updated: 2025/04/08 13:16:21 by nikhtib          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,33 +33,42 @@ static char	*get_path(char **s)
 
 void	free_path(char **path)
 {
-	while (*path)
-		free(*path++);
+	int	i;
+
+	i = 0;
+	while (path[i])
+	{
+		free(path[i]);
+		i++;
+	}
+	free(path);
 }
 
 char	*valid_path(char **env, char *cmmd)
 {
-	char	*full_path;
 	char	**path;
 	char	*p;
+	t_var	v;
 
 	p = NULL;
-	full_path = get_path(env);
-	path = ft_split(full_path, ':');
-	free(full_path);
-	while (*path)
+	v.full_path = get_path(env);
+	if (!v.full_path)
 	{
-		p = ft_strjoin(*path, "/");
+		write(2, "PATH Not Found!\n", 17);
+		exit(1);
+	}
+	path = ft_split(v.full_path, ':');
+	free(v.full_path);
+	v.i = 0;
+	while (path[v.i])
+	{
+		p = ft_strjoin(path[v.i], "/");
 		p = ft_strjoin(p, cmmd);
 		if (!access(p, X_OK))
-		{
-			free_path(path);
-			return (p);
-		}
+			return (free_path(path), p);
 		free(p);
-		path++;
+		v.i++;
 	}
-	//////check leaks
 	free_path(path);
 	return (NULL);
 }
